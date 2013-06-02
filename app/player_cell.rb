@@ -19,6 +19,7 @@ class PlayerCell < UITableViewCell
   def fillWithPlayer(player, inTableView:tableView)
     self.textLabel.text = player.name
     self.detailTextLabel.text = player.rating.to_s
+    self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
 
     unless player.gravatar_image
       self.imageView.image = nil
@@ -46,6 +47,8 @@ class PlayerCell < UITableViewCell
   def layoutSubviews
     super
     self.imageView.frame = CGRectMake(2, 2, 49, 49)
+    self.imageView.layer.cornerRadius = 5.0;
+    self.imageView.layeryer.masksToBounds = true;
     label_size = self.frame.size
     self.textLabel.frame = CGRectMake(57, 0, label_size.width - 59, label_size.height)
   end
