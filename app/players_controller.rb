@@ -33,6 +33,11 @@ class PlayersController < UITableViewController
     PlayerCell.cellForPlayer(player, inTableView:tableView)
   end
 
+  def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
+    player = @players[indexPath.row]
+    navigationController.pushViewController(PlayerController.alloc.initWithPlayer(player), animated: true)
+  end
+
   def reloadRowForPlayer(player)
     row = @players.index(player)
     if row
