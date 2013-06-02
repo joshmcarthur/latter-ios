@@ -8,4 +8,9 @@ class Player
     @gravatar_url = dict['gravatar_url']
     @gravatar_image = nil
   end
+
+  def load_gravatar_image
+    gravatar_image_data = NSData.alloc.initWithContentsOfURL(NSURL.URLWithString(self.gravatar_url))
+    self.gravatar_image = UIImage.alloc.initWithData(gravatar_image_data)
+  end
 end
