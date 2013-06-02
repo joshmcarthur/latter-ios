@@ -48,7 +48,7 @@ class PlayerCell < UITableViewCell
     super
     self.imageView.frame = CGRectMake(2, 2, 49, 49)
     self.imageView.layer.cornerRadius = 5.0;
-    self.imageView.layeryer.masksToBounds = true;
+    self.imageView.layer.masksToBounds = true;
     label_size = self.frame.size
     self.textLabel.frame = CGRectMake(57, 0, label_size.width - 59, label_size.height)
   end
