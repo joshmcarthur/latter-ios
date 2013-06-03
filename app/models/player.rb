@@ -1,5 +1,5 @@
 class Player
-  attr_reader :id, :name, :rating, :gravatar_url
+  attr_reader :id, :name, :rating, :gravatar_url, :game_count
   attr_accessor :gravatar_image
 
   def initialize(dict)
@@ -7,6 +7,7 @@ class Player
     @name = dict['name']
     @rating = dict['rating']
     @gravatar_url = dict['gravatar_url']
+    @game_count = dict['game_count']
     @gravatar_image = nil
   end
 
