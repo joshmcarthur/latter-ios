@@ -12,10 +12,15 @@ class AppDelegate
       root_controller = PlayersController.alloc.initWithStyle(UITableViewStylePlain)
     end
 
-    nav = UINavigationController.alloc.initWithRootViewController(root_controller)
-    nav.wantsFullScreenLayout = true
-    nav.toolbarHidden = true
-    @window.rootViewController = nav
+    games_controller = GamesController.alloc.initWithStyle(UITableViewStylePlain)
+
+    navigation_controller = UINavigationController.alloc.initWithRootViewController(root_controller)
+    navigation_controller.wantsFullScreenLayout = true
+    navigation_controller.toolbarHidden = true
+
+    tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
+    tab_controller.viewControllers = [navigation_controller, games_controller]
+    @window.rootViewController = tab_controller
     @window.makeKeyAndVisible
     true
   end
