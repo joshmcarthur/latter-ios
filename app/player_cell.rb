@@ -1,5 +1,5 @@
 class PlayerCell < UITableViewCell
-  CellID = 'CellIdentifier'
+  CellID = 'PlayerCell'
   MessageFontSize = 14
 
   def self.cellForPlayer(player, inTableView:tableView)

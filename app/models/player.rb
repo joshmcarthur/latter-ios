@@ -1,8 +1,9 @@
 class Player
-  attr_reader :name, :rating, :gravatar_url
+  attr_reader :id, :name, :rating, :gravatar_url
   attr_accessor :gravatar_image
 
   def initialize(dict)
+    @id = dict['id']
     @name = dict['name']
     @rating = dict['rating']
     @gravatar_url = dict['gravatar_url']
