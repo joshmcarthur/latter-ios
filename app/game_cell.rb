@@ -9,13 +9,18 @@ class GameCell < UITableViewCell
 
   def fillWithGame(game, inTableView: tableView)
 
-    challenger_image = UIImageView.alloc.initWithFrame([[0, 0], [45, 45]])
-    challenged_image = UIImageView.alloc.initWithFrame([[self.frame.size.width - 45, 0], [45, 45]])
+    challenger_image = UIImageView.alloc.initWithFrame([[5, 5], [45, 45]])
+    challenged_image = UIImageView.alloc.initWithFrame([[self.frame.size.width - 50, 5], [45, 45]])
 
     challenger_image.image = game.challenger.load_gravatar_image if game.challenger
     challenged_image.image = game.challenged.load_gravatar_image if game.challenged
+    challenger_image.layer.cornerRadius = 5.0;
+    challenger_image.layer.masksToBounds = true;
+    challenged_image.layer.cornerRadius = 5.0;
+    challenged_image.layer.masksToBounds = true;
 
-    score_label = UILabel.alloc.initWithFrame([[45, 0], [self.frame.size.width - 90, 45]])
+    score_label = UILabel.alloc.initWithFrame([[50, 5], [self.frame.size.width - 110, 45]])
+    score_label.textAlignment = NSTextAlignmentCenter
     score_label.text = game.score_string
 
     [challenger_image, challenged_image, score_label].each { |element| self.contentView.addSubview(element) }
