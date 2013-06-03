@@ -1,5 +1,11 @@
 class PlayersController < UITableViewController
 
+  def initWithStyle(style)
+    super
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Leaderboard", image: UIImage.imageNamed("players.png"), tag: 1)
+    self
+  end
+
   def viewDidLoad
     @players = []
     view.dataSource = view.delegate = self
