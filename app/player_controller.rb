@@ -15,7 +15,6 @@ class PlayerController < UIViewController
     addPlayerImage
     addPlayerRating
     addPlayerGameCount
-    addPlayerGameTable
   end
 
   def viewWillAppear(animated)
@@ -66,16 +65,4 @@ class PlayerController < UIViewController
     @player_container.addSubview(@player_game_count)
   end
 
-  def addPlayerGameTable
-    table_frame = [
-                    [0, @player_container.frame.size.height],
-                    [
-                      self.view.bounds.size.width,
-                      self.view.bounds.size.height - @player_container.frame.size.height
-                    ]
-                  ]
-    @player_game_table = GameTableView.alloc.initWithPlayerAndFrame(@player, table_frame, style: UITableViewStylePlain)
-    @player_game_table.load!
-    @player_container.addSubview(@player_game_table)
-  end
 end
