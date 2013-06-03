@@ -28,13 +28,19 @@ class PlayerCell < UITableViewCell
         if gravatar_image_data
           player.gravatar_image = UIImage.alloc.initWithData(gravatar_image_data)
           Dispatch::Queue.main.sync do
-            self.imageView.image = player.gravatar_image
+            self.contentView.addSubview(PlayerGravatar.alloc.initWithImageAndFrame(
+              player.gravatar_image,
+              [[5, 5], [49, 49]]
+            ))
             tableView.delegate.reloadRowForPlayer(player)
           end
         end
       end
     else
-      self.imageView.image = player.gravatar_image
+      self.contentView.addSubview(PlayerGravatar.alloc.initWithImageAndFrame(
+        player.gravatar_image,
+        [[5, 5], [49, 49]]
+      ))
     end
   end
 
@@ -46,9 +52,6 @@ class PlayerCell < UITableViewCell
 
   def layoutSubviews
     super
-    self.imageView.frame = CGRectMake(2, 2, 49, 49)
-    self.imageView.layer.cornerRadius = 5.0;
-    self.imageView.layer.masksToBounds = true;
     label_size = self.frame.size
     self.textLabel.frame = CGRectMake(57, 0, label_size.width - 59, label_size.height)
   end
