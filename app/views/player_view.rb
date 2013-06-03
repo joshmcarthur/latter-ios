@@ -5,22 +5,46 @@ class PlayerView < UIView
     self.initWithFrame(frame)
   end
 
-  def setup
+  def initWithFrame(frame)
+    super
+
     self.backgroundColor = UIColor.whiteColor
     addPlayerImage
     addPlayerRating
     addPlayerGameCount
+    addChallengeButton
   end
 
   private
 
-  def addPlayerImage
-    player_image = UIImageView.alloc.initWithFrame([[10, 10], [90, 90]])
-    player_image.image = @player.load_gravatar_image
-    player_image.layer.cornerRadius = 5.0;
-    player_image.layer.masksToBounds = true;
+  def addChallengeButton
+    @challengeButton = NiceButton.initWithTextAndFrame(
+      "Challenge #{@player.name}",
+      [[10, 110], [self.frame.size.width - 20, 45]]
+    )
+    @challengeButton.addTarget(self, action: :challengeButtonClicked,  forControlEvents: UIControlEventTouchUpInside)
+    self.addSubview(@challengeButton)
+  end
 
-    self.addSubview(player_image)
+  def challengeButtonClicked
+    UIActionSheet.alloc.init.tap do |as|
+      as.title = "Are you sure you want to challenge?"
+      as.delegate = self
+      as.addButtonWithTitle("Challenge!")
+      as.destructiveButtonIndex = 0
+      as.addButtonWithTitle("Cancel")
+      as.cancelButtonIndex = 1
+      as.showFromRect(@challengeButton.frame, inView:self, animated:true)
+    end
+  end
+
+  def addPlayerImage
+    self.addSubview(
+      PlayerGravatar.alloc.initWithImageAndFrame(
+        @player.load_gravatar_image,
+        [[10, 10], [90, 90]]
+      )
+    )
   end
 
   def addPlayerRating
@@ -48,7 +72,7 @@ class PlayerView < UIView
     player_game_count = UILabel.alloc.initWithFrame([[140, 55], [self.frame.size.width - 140, 45]])
     player_game_count.font = UIFont.systemFontOfSize(20.0)
     player_game_count.backgroundColor = UIColor.clearColor
-    player_game_count.text = "600 Games"
+    player_game_count.text = "#{@player.game_count} Games"
 
     self.addSubview(player_game_count_icon)
     self.addSubview(player_game_count)
