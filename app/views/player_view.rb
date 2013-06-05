@@ -26,6 +26,12 @@ class PlayerView < UIView
     self.addSubview(@challengeButton)
   end
 
+  def actionSheet(actionSheet, clickedButtonAtIndex:buttonIndex)
+    if actionSheet.destructiveButtonIndex == buttonIndex
+      $stderr.puts "Challenge someone!"
+    end
+  end
+
   def challengeButtonClicked
     UIActionSheet.alloc.init.tap do |as|
       as.title = "Are you sure you want to challenge?"
