@@ -28,7 +28,6 @@ class ChallengeCell < UITableViewCell
 
   def layoutSubviews
     super
-
     cell_bounds = self.contentView.frame.size
     @challenged_image.frame = CGRectMake(cell_bounds.width - (64 + 5), 5, 64, 64)
   end
