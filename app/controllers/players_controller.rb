@@ -7,16 +7,18 @@ class PlayersController < UITableViewController
   end
 
   def viewDidLoad
-    @players = []
-    view.dataSource = view.delegate = self
+    Spin.new(self) do
+      @players = []
+      view.dataSource = view.delegate = self
 
-    Latter::API.new.get("/players.json") do |response|
-      if response.ok?
-        json = BubbleWrap::JSON.parse(response.body.to_s)
-        @players = json.reverse.map { |player_hash| Player.new(player_hash) }
-        view.reloadData
-      else
-        App.alert(response.error_message)
+      Latter::API.new.get("/players.json") do |response|
+        if response.ok?
+          json = BubbleWrap::JSON.parse(response.body.to_s)
+          @players = json.reverse.map { |player_hash| Player.new(player_hash) }
+          view.reloadData
+        else
+          App.alert(response.error_message)
+        end
       end
     end
   end
