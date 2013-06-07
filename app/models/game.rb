@@ -7,7 +7,7 @@ class Game
     @score_string = dict['score']
 
     if challenger && challenged
-      winner = case dict['winner_id']
+      @winner = case dict['winner_id']
                when challenger.id
                 challenger
                when challenged.id
