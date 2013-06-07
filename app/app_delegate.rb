@@ -14,12 +14,16 @@ class AppDelegate
     # games_controller = GamesController.alloc.initWithStyle(UITableViewStylePlain)
     challenges_controller = ChallengesController.alloc.initWithStyle(UITableViewStyleGrouped)
 
-    navigation_controller = UINavigationController.alloc.initWithRootViewController(root_controller)
-    navigation_controller.wantsFullScreenLayout = true
-    navigation_controller.toolbarHidden = true
+    player_navigation_controller = UINavigationController.alloc.initWithRootViewController(root_controller)
+    player_navigation_controller.wantsFullScreenLayout = true
+    player_navigation_controller.toolbarHidden = true
+
+    challenge_navigation_controller = UINavigationController.alloc.initWithRootViewController(challenges_controller)
+    challenge_navigation_controller.wantsFullScreenLayout = true
+    challenge_navigation_controller.toolbarHidden = true
 
     tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
-    tab_controller.viewControllers = [navigation_controller, challenges_controller] #, games_controller]
+    tab_controller.viewControllers = [player_navigation_controller, challenge_navigation_controller] #, games_controller]
     @window.rootViewController = tab_controller
     @window.makeKeyAndVisible
     true
