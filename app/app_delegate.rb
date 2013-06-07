@@ -12,7 +12,7 @@ class AppDelegate
     end
 
     games_controller = GamesController.alloc.initWithStyle(UITableViewStylePlain)
-    challenges_controller = ChallengesController.alloc.initWithStyle(UITableViewStylePlain)
+    challenges_controller = ChallengesController.alloc.initWithStyle(UITableViewStyleGrouped)
 
     navigation_controller = UINavigationController.alloc.initWithRootViewController(root_controller)
     navigation_controller.wantsFullScreenLayout = true
