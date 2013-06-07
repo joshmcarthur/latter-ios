@@ -10,41 +10,49 @@ class ChallengesController < UITableViewController
   end
 
 
+  def viewWillAppear(animated)
+   navigationItem.title = 'Challenges'
+  end
+
+
   def tableView(tableView, titleForHeaderInSection: section)
     if section == YOUR_CHALLENGES_SECTION
       "Your Challenges"
-    elsif section == ALL_CHALLENGES_SECTION
-      "Latest Challenges"
+    # elsif section == ALL_CHALLENGES_SECTION
+    #   "Latest Challenges"
     end
   end
 
   def viewDidLoad
-    @challenges = []
-    view.dataSource = view.delegate = self
+    Spin.new(self) do
+      # @challenges = []
+      @your_challenges = []
 
-    Latter::API.new.get("/games", {complete: "false", per_page: "25"}) do |response|
-      if response.ok?
-        json = BubbleWrap::JSON.parse(response.body.to_s)
-        @challenges = json.select { |hash| hash["challenger"] && hash["challenged"] }.map { |game_hash| Game.new(game_hash) }
-        view.reloadData
-      else
-        $stderr.puts response.status_code
-        App.alert(response.error_message)
+      view.dataSource = view.delegate = self
+
+      Latter::API.new.get("/games", {complete: "false", per_page: "25"}) do |response|
+        if response.ok?
+          json = BubbleWrap::JSON.parse(response.body.to_s)
+          @challenges = json.select { |hash| hash["challenger"] && hash["challenged"] }.map { |game_hash| Game.new(game_hash) }
+          @your_challenges = @challenges.select do |c|
+            c.challenged.id == App::Persistence['current_player_id'] || \
+            c.challenger.id == App::Persistence['current_player_id']
+          end
+
+          view.reloadData
+        else
+          App.alert(response.error_message)
+        end
       end
     end
   end
 
   def tableView(tableView, cellForRowAtIndexPath: indexPath)
     return case indexPath.section
-           when ALL_CHALLENGES_SECTION
-            ChallengeCell.cellForChallenge(@challenges[indexPath.row], involvesCurrentPlayer: false, inTableView:tableView)
-           end
-  end
-
-  def tableView(tableView, cellForRowAtIndexPath: indexPath)
-    return case indexPath.section
-           when ALL_CHALLENGES_SECTION
-            ChallengeCell.cellForChallenge(@challenges[indexPath.row], involvesCurrentPlayer: false, inTableView:tableView)
+           # when ALL_CHALLENGES_SECTION
+           #  ChallengeCell.cellForChallenge(@challenges[indexPath.row], involvesCurrentPlayer: false, inTableView:tableView)
+           when YOUR_CHALLENGES_SECTION
+            ChallengeCell.cellForChallenge(@your_challenges[indexPath.row], involvesCurrentPlayer: true, inTableView: tableView)
            end
   end
 
@@ -54,14 +62,16 @@ class ChallengesController < UITableViewController
   end
 
   def tableView(tableView, numberOfRowsInSection: section)
-    if section == ALL_CHALLENGES_SECTION
-      @challenges.count
+    # if section == ALL_CHALLENGES_SECTION
+    #   @challenges.count
+    if section == YOUR_CHALLENGES_SECTION
+      @your_challenges.count
     else
       0
     end
   end
 
   def numberOfSectionsInTableView(tableView)
-    2
+    1
   end
 end
