@@ -21,9 +21,10 @@ class AuthKeyController < Formotion::FormController
       show_error("Auth key must not be blank!")
       return false
     else
-      Latter::API.validate_token!(data["auth_key"]) do |result, token|
+      Latter::API.validate_token!(data["auth_key"]) do |result, token, player_id|
         if result
           App::Persistence['auth_token'] = token
+          App::Persistence['current_player_id'] = player_id
           navigationController.pushViewController(PlayersController.alloc.initWithStyle(UITableViewStylePlain), animated: true)
         else
           show_error("Auth key was not valid, please try again.")
