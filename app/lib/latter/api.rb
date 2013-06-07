@@ -11,8 +11,12 @@ module Latter
     end
 
     def self.validate_token!(auth_token, &block)
-      self.new(auth_token).get("/players") do |response|
-        block.call(!(response.status_code > 400), auth_token)
+      self.new(auth_token).get("/player") do |response|
+        if response.status_code > 400
+          block.call(false, auth_token, nil)
+        else
+          block.call(true, auth_token, BubbleWrap::JSON.parse(response.body)["player"]["id"])
+        end
       end
     end
 
