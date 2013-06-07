@@ -9,6 +9,10 @@ class ChallengeCell < UITableViewCell
     cell
   end
 
+  def appendCompletionAccessory
+    self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
+  end
+
   def fillWithChallenge(challenge, inTableView: tableView)
     @challenger_image = PlayerGravatar.alloc.initWithImageAndFrame(
       challenge.challenger.load_gravatar_image,
