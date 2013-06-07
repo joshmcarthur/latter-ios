@@ -1,13 +1,15 @@
 Latter for iOS
 ===
 
+[![Build Status](https://travis-ci.org/joshmcarthur/latter-ios.png?branch=master)](https://travis-ci.org/joshmcarthur/latter-ios)
+
 Latter for iOS is a [RubyMotion](http://rubymotion.com) application for interfacing with [Latter](https://latter.herokuapp.com).
 
 
 Installing
 ---
 
-You can't install this right now via the app store, as I need to jump through Apple hoops. 
+You can't install this right now via the app store, as I need to jump through Apple hoops.
 
 If you've got RubyMotion, you can try this out on your device by following the instructions below and running `rake device` instead of just `rake` to install.
 
