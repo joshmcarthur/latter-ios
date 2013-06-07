@@ -14,7 +14,7 @@ class ChallengesController < UITableViewController
     if section == YOUR_CHALLENGES_SECTION
       "Your Challenges"
     elsif section == ALL_CHALLENGES_SECTION
-      "All Challenges"
+      "Latest Challenges"
     end
   end
 
