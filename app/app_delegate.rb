@@ -11,7 +11,7 @@ class AppDelegate
       root_controller = PlayersController.alloc.initWithStyle(UITableViewStylePlain)
     end
 
-    games_controller = GamesController.alloc.initWithStyle(UITableViewStylePlain)
+    # games_controller = GamesController.alloc.initWithStyle(UITableViewStylePlain)
     challenges_controller = ChallengesController.alloc.initWithStyle(UITableViewStyleGrouped)
 
     navigation_controller = UINavigationController.alloc.initWithRootViewController(root_controller)
@@ -19,7 +19,7 @@ class AppDelegate
     navigation_controller.toolbarHidden = true
 
     tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
-    tab_controller.viewControllers = [navigation_controller, challenges_controller, games_controller]
+    tab_controller.viewControllers = [navigation_controller, challenges_controller] #, games_controller]
     @window.rootViewController = tab_controller
     @window.makeKeyAndVisible
     true
