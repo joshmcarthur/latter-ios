@@ -14,7 +14,7 @@ class AppDelegate
     if App::Persistence["auth_token"].nil?
 
       @window.rootViewController = UINavigationController.alloc.initWithRootViewController(
-        AuthKeyController.alloc.initWithForm(AuthKeyController.build_form, callbackTo: @tab_controller)
+        AuthTokenController.alloc.initWithForm(AuthKeyController.build_form, callbackTo: @tab_controller)
       )
       @window.makeKeyAndVisible
       return true

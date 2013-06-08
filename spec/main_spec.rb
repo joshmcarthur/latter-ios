@@ -29,8 +29,8 @@ end
 #     @app = UIApplication.sharedApplication
 #   end
 
-#   it "sets an instance of AuthKeyController as the root view" do
-#     @app.windows.first.rootViewController.viewControllers.first.class.should.equal AuthKeyController
+#   it "sets an instance of AuthTokenController as the root view" do
+#     @app.windows.first.rootViewController.viewControllers.first.class.should.equal AuthTokenController
 #   end
 # end
 

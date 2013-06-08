@@ -1,4 +1,4 @@
-class AuthKeyController < Formotion::FormController
+class AuthTokenController < Formotion::FormController
 
   def initWithForm(form, callbackTo: callbackTo)
     @callback = callbackTo
