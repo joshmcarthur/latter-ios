@@ -23,9 +23,10 @@ class ChallengesController < UITableViewController
     end
   end
 
-  def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     game = @your_challenges[indexPath.row]
     navigationController.pushViewController(ScoreController.alloc.initWithGame(game), animated: true)
+
   end
 
   def viewDidLoad

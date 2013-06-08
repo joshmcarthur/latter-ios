@@ -5,12 +5,7 @@ class ChallengeCell < UITableViewCell
     cell = tableView.dequeueReusableCellWithIdentifier(ChallengeCell::CellID) || ChallengeCell.alloc.initWithStyle(UITableViewCellStyleValue1, reuseIdentifier:CellID)
     cell.indentationWidth = 0
     cell.fillWithChallenge(challenge, inTableView:tableView)
-    cell.appendCompletionAccessory if ours
     cell
-  end
-
-  def appendCompletionAccessory
-    self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
   end
 
   def fillWithChallenge(challenge, inTableView: tableView)
