@@ -8,8 +8,10 @@ describe "auth token controller" do
   end
 
   after do
-    reset_stubs
+    NSUserDefaults.resetStandardUserDefaults
+    NSUserDefaults.standardUserDefaults
   end
+
 
   tests AuthTokenController
 
@@ -30,7 +32,7 @@ describe "auth token controller" do
   end
 
   it "displays an alert when auth token is left blank" do
-    controller.form.stub!(:render, :return => {"auth_token" => "", "api_endpoint" => "http://testing.com"})
+    controller.form.stub!(:render, :return => {"auth_token" => "", "api_endpoint" => "https://testing.com"})
     App.mock!(:alert, :return => nil) { |message| message.should.equal "Auth token must not be blank!" }
     controller.submit
   end
@@ -42,10 +44,10 @@ describe "auth token controller" do
   end
 
   it "displays an alert when the auth token is not recognized" do
-    stub_request(:get, "http://latter.herokuapp.com/api/v1/player.json?auth_token=testing").
+    stub_request(:get, "https://testing.com/api/v1/player.json?auth_token=testing").
       to_return(status_code: 401)
 
-    controller.form.stub!(:render, :return => {"auth_token" => "testing", "api_endpoint" => "http://latter.herokuapp.com" })
+    controller.form.stub!(:render, :return => {"auth_token" => "testing", "api_endpoint" => "https://testing.com" })
     App.mock!(:alert, :return => nil) { |message| message.should.equal "Auth key was not valid, please try again." }
 
     controller.submit
@@ -53,10 +55,10 @@ describe "auth token controller" do
   end
 
   it "sets the current player ID and auth token when the auth token is recognized and presents the callback controller" do
-    stub_request(:get, "http://testing.com/api/v1/player.json?auth_token=testing").
+    stub_request(:get, "https://testing.com/api/v1/player.json?auth_token=testing").
       to_return(json: Fixture.load("player.json"), status_code: 200)
 
-    controller.form.stub!(:render, :return => {"auth_token" => "testing", "api_endpoint" => "http://testing.com" })
+    controller.form.stub!(:render, :return => {"auth_token" => "testing", "api_endpoint" => "https://testing.com" })
     controller.mock!('presentViewController:animated:completion', :return => nil) do |controller, animated, completion|
     end
 
