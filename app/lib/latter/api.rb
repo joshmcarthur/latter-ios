@@ -11,7 +11,7 @@ module Latter
     end
 
     def self.validate_token!(auth_token, &block)
-      self.new(auth_token).get("/player") do |response|
+      self.new(auth_token).get("/player.json") do |response|
         if response.nil? || response.status_code.nil? || response.status_code > 400
           block.call(false, auth_token, nil)
         else
