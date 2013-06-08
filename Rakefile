@@ -4,6 +4,8 @@ require 'motion/project/template/ios'
 require 'formotion'
 require 'bubble-wrap/all'
 require 'motion-fontawesome'
+require 'motion-stump'
+require 'webstub'
 
 require 'dotenv'
 Dotenv.load
