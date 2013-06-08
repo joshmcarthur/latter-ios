@@ -5,6 +5,7 @@ class PlayerCell < UITableViewCell
   def self.cellForPlayer(player, inTableView:tableView)
     cell = tableView.dequeueReusableCellWithIdentifier(PlayerCell::CellID) || PlayerCell.alloc.initWithStyle(UITableViewCellStyleValue1, reuseIdentifier:CellID)
     cell.fillWithPlayer(player, inTableView:tableView)
+    cell.selectionStyle UITableViewCellSelectionStyleNone
     cell
   end
 
