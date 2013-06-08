@@ -5,27 +5,26 @@ class AppDelegate
     App::Persistence['api_endpoint'] = 'https://latter.herokuapp.com' unless App::Persistence['api_endpoint']
     App::Persistence['api_version'] = 'v1' unless App::Persistence['api_version']
 
+
+
+    @player_navigation_controller = PlayerNavigationController.alloc.init
+    @challenges_navigation_controller = ChallengeNavigationController.alloc.init
+
+    @tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
+    @tab_controller.viewControllers = [@player_navigation_controller, @challenges_navigation_controller] #, games_controller]
+
     if App::Persistence["auth_token"].nil?
-      root_controller = AuthKeyController.alloc.initWithForm(AuthKeyController.build_form)
-    else
-      root_controller = PlayersController.alloc.initWithStyle(UITableViewStylePlain)
+
+      @window.rootViewController = UINavigationController.alloc.initWithRootViewController(
+        AuthKeyController.alloc.initWithForm(AuthKeyController.build_form, callbackTo: @tab_controller)
+      )
+      @window.makeKeyAndVisible
+      return true
     end
 
-    # games_controller = GamesController.alloc.initWithStyle(UITableViewStylePlain)
-    challenges_controller = ChallengesController.alloc.initWithStyle(UITableViewStyleGrouped)
-
-    player_navigation_controller = UINavigationController.alloc.initWithRootViewController(root_controller)
-    player_navigation_controller.wantsFullScreenLayout = true
-    player_navigation_controller.toolbarHidden = true
-
-    challenge_navigation_controller = UINavigationController.alloc.initWithRootViewController(challenges_controller)
-    challenge_navigation_controller.wantsFullScreenLayout = true
-    challenge_navigation_controller.toolbarHidden = true
-
-    tab_controller = UITabBarController.alloc.initWithNibName(nil, bundle: nil)
-    tab_controller.viewControllers = [player_navigation_controller, challenge_navigation_controller] #, games_controller]
-    @window.rootViewController = tab_controller
+    @window.rootViewController = @tab_controller
     @window.makeKeyAndVisible
+
     true
   end
 end
