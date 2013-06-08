@@ -9,6 +9,7 @@ class PlayerView < UIView
     super
 
     self.backgroundColor = UIColor.whiteColor
+    self.autoresizingMask = UIViewAutoresizingFlexibleWidth  | UIViewAutoresizingFlexibleHeight
     addPlayerImage
     addPlayerRating
     addPlayerGameCount
@@ -23,6 +24,7 @@ class PlayerView < UIView
       [[10, 110], [self.frame.size.width - 20, 45]]
     )
     @challengeButton.addTarget(self, action: :challengeButtonClicked,  forControlEvents: UIControlEventTouchUpInside)
+    @challengeButton.autoresizingMask = UIViewAutoresizingFlexibleWidth
     self.addSubview(@challengeButton)
   end
 
