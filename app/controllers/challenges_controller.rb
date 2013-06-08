@@ -14,10 +14,6 @@ class ChallengesController < UITableViewController
    navigationItem.title = 'Challenges'
   end
 
-  def viewDidAppear(animated)
-    super
-    tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow, animated: true)
-  end
 
   def tableView(tableView, titleForHeaderInSection: section)
     if section == YOUR_CHALLENGES_SECTION
