@@ -5,8 +5,6 @@ class AppDelegate
     App::Persistence['api_endpoint'] = 'https://latter.herokuapp.com' unless App::Persistence['api_endpoint']
     App::Persistence['api_version'] = 'v1' unless App::Persistence['api_version']
 
-
-
     @player_navigation_controller = PlayerNavigationController.alloc.init
     @challenges_navigation_controller = ChallengeNavigationController.alloc.init
 
