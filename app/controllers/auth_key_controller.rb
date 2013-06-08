@@ -1,5 +1,12 @@
 class AuthKeyController < Formotion::FormController
 
+  def initWithForm(form, callbackTo: callbackTo)
+    @callback = callbackTo
+    self.initWithForm(form)
+
+    self
+  end
+
   def viewDidLoad
     super
     self.navigationItem.title = "Access Credentials"
@@ -17,15 +24,15 @@ class AuthKeyController < Formotion::FormController
       App::Persistence['api_endpoint'] = data['api_endpoint']
     end
 
-    if data["auth_key"].strip == ""
-      show_error("Auth key must not be blank!")
+    if data["auth_token"].strip == ""
+      show_error("Auth token must not be blank!")
       return false
     else
-      Latter::API.validate_token!(data["auth_key"]) do |result, token, player_id|
+      Latter::API.validate_token!(data["auth_token"]) do |result, token, player_id|
         if result
           App::Persistence['auth_token'] = token
           App::Persistence['current_player_id'] = player_id
-          navigationController.pushViewController(PlayersController.alloc.initWithStyle(UITableViewStylePlain), animated: true)
+          self.presentViewController(@callback, animated: true, completion: nil)
         else
           show_error("Auth key was not valid, please try again.")
         end
@@ -34,10 +41,7 @@ class AuthKeyController < Formotion::FormController
   end
 
   def show_error(message)
-    alert = UIAlertView.alloc.init
-    alert.message = message
-    alert.addButtonWithTitle("OK")
-    alert.show
+    App.alert(message)
   end
 
   def self.build_form
@@ -45,11 +49,12 @@ class AuthKeyController < Formotion::FormController
       sections: [{
         title: nil,
         rows: [{
-          title: 'Auth Key',
-          key: 'auth_key',
+          title: 'Auth Token',
+          key: 'auth_token',
           type: :string,
           auto_correction: :no,
-          auto_capitalization: :none
+          auto_capitalization: :none,
+          value: App::Persistence['auth_token']
         },  {
           title: 'Latter URL',
           key: 'api_endpoint',
