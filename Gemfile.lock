@@ -9,7 +9,9 @@ GEM
     motion-fontawesome (0.0.1)
       rake
     motion-require (0.0.6)
+    motion-stump (0.2.1)
     rake (10.0.4)
+    webstub (0.3.7)
 
 PLATFORMS
   ruby
@@ -18,3 +20,5 @@ DEPENDENCIES
   dotenv
   formotion
   motion-fontawesome
+  motion-stump
+  webstub
