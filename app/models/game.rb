@@ -1,7 +1,8 @@
 class Game
-  attr_accessor :challenger, :challenged, :winner, :score_string
+  attr_accessor :id, :challenger, :challenged, :winner, :score_string
 
   def initialize(dict)
+    @id         = dict['id']
     @challenger = Player.new(dict['challenger']) if dict['challenger']
     @challenged = Player.new(dict['challenged']) if dict['challenged']
     @score_string = dict['score']
