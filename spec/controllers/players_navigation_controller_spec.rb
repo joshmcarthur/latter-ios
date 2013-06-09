@@ -1,15 +1,24 @@
 describe "Players navigation controller" do
   extend WebStub::SpecHelpers
   before do
-    @controller = PlayerNavigationController.alloc.init
+    stub_request(
+      :get, "http://#{App::Persistence['api_endpoint']}/players.json?auth_token=#{App::Persistence['auth_token']}"
+    ).to_return(json: [])
+
+    self.controller = PlayerNavigationController.alloc.init
   end
 
+  tests PlayerNavigationController
 
   it "inherits from UINavigationController" do
-    @controller.superclass.should.equal UINavigationController
+    self.controller.superclass.should.equal UINavigationController
   end
 
   it "sets the players controller as it's root view controller" do
-    @controller.viewControllers.first.class.should.equal PlayersController
+    self.controller.viewControllers.first.class.should.equal PlayersController
+  end
+
+  it "has a refresh button" do
+    view("Refresh Table").class.should.equal UINavigationButton
   end
 end
