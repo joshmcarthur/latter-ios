@@ -12,6 +12,7 @@ class ChallengesController < UITableViewController
 
   def viewWillAppear(animated)
    navigationItem.title = 'Challenges'
+   @refresh_button = RefreshButton.new(self, "viewDidLoad")
   end
 
   def viewDidAppear(animated)
@@ -35,33 +36,49 @@ class ChallengesController < UITableViewController
   end
 
   def viewDidLoad
-    Spin.new(self) do
-      # @challenges = []
-      @your_challenges = []
+    @spinner = Spin.new(self.view)
+    @challenges = []
+    @your_challenges = []
 
-      view.dataSource = view.delegate = self
+    view.dataSource = view.delegate = self
 
-      Latter::API.new.get("/games", {complete: "false", per_page: "25"}) do |response|
-        if response.ok?
-          json = BubbleWrap::JSON.parse(response.body.to_s)
-          @challenges = json.select { |hash| hash["challenger"] && hash["challenged"] }.map { |game_hash| Game.new(game_hash) }
-          @your_challenges = @challenges.select do |c|
-            c.challenged.id == App::Persistence['current_player_id'] || \
-            c.challenger.id == App::Persistence['current_player_id']
-          end
-
-          view.reloadData
-        else
-          App.alert(response.error_message)
+    Latter::API.new.get("/games.json", {complete: "false"}) do |response|
+      @spinner.stop
+      if response.ok?
+        json = BubbleWrap::JSON.parse(response.body.to_s)
+        @challenges = json.select { |hash| hash["challenger"] && hash["challenged"] }.map { |game_hash| Game.new(game_hash) }
+        @your_challenges = @challenges.select do |c|
+          c.challenged.id == App::Persistence['current_player_id'] || \
+          c.challenger.id == App::Persistence['current_player_id']
         end
+
+        if @your_challenges.length > 0 && @no_data_label
+          @no_data_label.removeFromSuperview
+        elsif @your_challenges.length < 1 && @no_data_label.nil?
+          add_no_data_label
+        end
+
+        view.reloadData
+      else
+        App.alert(response.error_message)
       end
     end
   end
 
+  def add_no_data_label
+    @no_data_label = UILabel.alloc.initWithFrame([[20, 50], [self.view.frame.size.width - 40, 20]]).tap do |label|
+      label.text = "No challenges at the moment"
+      label.autoresizingMask = UIViewAutoresizingFlexibleWidth
+      label.textAlignment = NSTextAlignmentCenter
+      label.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize)
+      label.backgroundColor = UIColor.clearColor
+    end
+
+    self.view.addSubview(@no_data_label)
+  end
+
   def tableView(tableView, cellForRowAtIndexPath: indexPath)
     return case indexPath.section
-           # when ALL_CHALLENGES_SECTION
-           #  ChallengeCell.cellForChallenge(@challenges[indexPath.row], involvesCurrentPlayer: false, inTableView:tableView)
            when YOUR_CHALLENGES_SECTION
             ChallengeCell.cellForChallenge(@your_challenges[indexPath.row], involvesCurrentPlayer: true, inTableView: tableView)
            end
@@ -81,6 +98,7 @@ class ChallengesController < UITableViewController
       0
     end
   end
+
 
   def numberOfSectionsInTableView(tableView)
     1
