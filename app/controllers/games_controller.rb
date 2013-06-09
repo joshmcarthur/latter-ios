@@ -10,7 +10,7 @@ class GamesController < UITableViewController
     @games = []
     view.dataSource = view.delegate = self
 
-    Latter::API.new.get("/games") do |response|
+    Latter::API.new.get("/games.json") do |response|
       if response.ok?
         json = BubbleWrap::JSON.parse(response.body.to_s)
         @games = json.select { |hash| hash["challenger"] && hash["challenged"] }.map { |game_hash| Game.new(game_hash) }
