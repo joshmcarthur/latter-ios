@@ -1,14 +1,15 @@
 class Spin
-  def initialize(klass, &block)
-    spinner = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleGray)
-    spinner.center = klass.view.center
-    spinner.hidesWhenStopped = true
-    klass.view.addSubview(spinner)
+  def initialize(view)
+    @spinner = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleGray)
+    @spinner.center = view.center
+    @spinner.hidesWhenStopped = true
+    @spinner.startAnimating
+    view.addSubview(@spinner)
 
-    spinner.startAnimating
+    self
+  end
 
-    block.call
-
-    spinner.stopAnimating
+  def stop
+    @spinner.stopAnimating
   end
 end
