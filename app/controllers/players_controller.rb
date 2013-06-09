@@ -16,7 +16,7 @@ class PlayersController < UITableViewController
       @spinner.stop
       if response.ok?
         json = BubbleWrap::JSON.parse(response.body.to_s)
-        @players = json.reverse.map { |player_hash| Player.new(player_hash) }
+        @players = json.map { |player_hash| Player.new(player_hash) }
         view.reloadData
       else
         App.alert(response.error_message)
