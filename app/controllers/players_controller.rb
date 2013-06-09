@@ -4,7 +4,6 @@ class PlayersController < UITableViewController
     super
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Leaderboard", image: UIImage.imageNamed("players.png"), tag: 1)
 
-
     self
   end
 
@@ -29,7 +28,6 @@ class PlayersController < UITableViewController
   def viewWillAppear(animated)
     navigationItem.title = 'Leaderboard'
     @refresh_button = RefreshButton.new(self, "viewDidLoad")
-
   end
 
   def tableView(tableView, numberOfRowsInSection:section)
