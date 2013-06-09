@@ -1,5 +1,4 @@
 describe "Challenge navigation controller" do
-  extend WebStub::SpecHelpers
   before do
     @controller = ChallengeNavigationController.alloc.init
   end
