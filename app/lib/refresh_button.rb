@@ -9,6 +9,7 @@ class RefreshButton
                     target: self,
                     action: "performRefresh"
                   )
+    @button.accessibilityLabel = "Refresh Table"
     @controller.navigationItem.rightBarButtonItem = self.button
 
     self
