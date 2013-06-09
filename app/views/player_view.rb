@@ -1,4 +1,5 @@
 class PlayerView < UIView
+  attr_reader :challengeButton
 
   def initWithPlayerAndFrame(player, frame)
     @player = player
@@ -13,10 +14,14 @@ class PlayerView < UIView
     addPlayerImage
     addPlayerRating
     addPlayerGameCount
-    addChallengeButton
+    addChallengeButton unless @player.id == App::Persistence['current_player_id']
+
+    self
   end
 
   private
+
+
 
   def addChallengeButton
     @challengeButton = NiceButton.initWithTextAndFrame(
@@ -30,19 +35,32 @@ class PlayerView < UIView
 
   def actionSheet(actionSheet, clickedButtonAtIndex:buttonIndex)
     if actionSheet.destructiveButtonIndex == buttonIndex
-      $stderr.puts "Challenge someone!"
+      submitChallenge
     end
   end
 
   def challengeButtonClicked
     UIActionSheet.alloc.init.tap do |as|
-      as.title = "Are you sure you want to challenge?"
-      as.delegate = self
+      as.title = "Are you sure you want to challenge #{@player.name}?"
       as.addButtonWithTitle("Challenge!")
       as.destructiveButtonIndex = 0
       as.addButtonWithTitle("Cancel")
       as.cancelButtonIndex = 1
+      as.delegate = self
       as.showFromRect(@challengeButton.frame, inView:self, animated:true)
+    end
+  end
+
+  def submitChallenge
+    @spinner = Spin.new(self)
+    Latter::API.new.post("/games.json", game: {challenged_id: @player.id}) do |response|
+      @spinner.stop
+
+      if response.ok?
+        self.challengeButton.enabled = false
+      else
+        App.alert("Failed to challenge. Please try again")
+      end
     end
   end
 
