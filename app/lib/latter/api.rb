@@ -2,11 +2,7 @@ module Latter
   class API
     attr_reader :base_url, :params
     def initialize(auth_token = App::Persistence["auth_token"])
-      @base_url = App::Persistence['api_endpoint'].tap do |hostname|
-        hostname << '/api/'
-        hostname << App::Persistence['api_version']
-      end
-
+      @base_url = App::Persistence['api_endpoint']
       @params = {auth_token: auth_token}
     end
 

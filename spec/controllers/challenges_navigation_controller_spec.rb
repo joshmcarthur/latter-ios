@@ -1,7 +1,7 @@
 describe "Challenge navigation controller" do
   extend WebStub::SpecHelpers
   before do
-    stub_request("#{App::Persistence['api_endpoint']}/api/v1/games.json?auth_token=testing&complete=false").
+    stub_request("#{App::Persistence['api_endpoint']}/games.json?auth_token=testing&complete=false").
       to_return(json: [])
     self.controller = ChallengeNavigationController.alloc.init
   end

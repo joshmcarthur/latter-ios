@@ -1,4 +1,4 @@
-describe 'Game model' do
+qdescribe 'Game model' do
   # A game between Mike and Josh, Mike won 21-19
   def game_hash
     Fixture.load("games.json").first

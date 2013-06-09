@@ -44,7 +44,7 @@ describe "auth token controller" do
   end
 
   it "displays an alert when the auth token is not recognized" do
-    stub_request(:get, "https://testing.com/api/v1/player.json?auth_token=testing").
+    stub_request(:get, "https://testing.com/player.json?auth_token=testing").
       to_return(status_code: 401)
 
     controller.form.stub!(:render, :return => {"auth_token" => "testing", "api_endpoint" => "https://testing.com" })
@@ -55,7 +55,7 @@ describe "auth token controller" do
   end
 
   it "sets the current player ID and auth token when the auth token is recognized and presents the callback controller" do
-    stub_request(:get, "https://testing.com/api/v1/player.json?auth_token=testing").
+    stub_request(:get, "https://testing.com/player.json?auth_token=testing").
       to_return(json: Fixture.load("player.json"), status_code: 200)
 
     controller.form.stub!(:render, :return => {"auth_token" => "testing", "api_endpoint" => "https://testing.com" })
