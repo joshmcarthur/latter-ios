@@ -28,7 +28,24 @@ class ScoreController < UITableViewController
   end
 
   def submit
-    App.alert("Submitted: #{@challenger_row.score}, #{@challenged_row.score}")
+    navigationItem.rightBarButtonItem.enabled = false
+    @spinner = Spin.new(self.view)
+    Latter::API.new.post(
+      "/games/#{@game.id}/score",
+      game: {
+        challenger_score: @challenger_row.score,
+        challenged_score: @challenged_row.score
+      }
+    ) do |response|
+      @spinner.stop
+      navigationItem.rightBarButtonItem.enabled = true
+      if response.ok?
+        navigationController.topViewController.viewDidLoad
+        navigationController.popToRootViewControllerAnimated(true)
+      else
+        App.alert("There was a problem recording your score. Please try again.")
+      end
+    end
   end
 
 
