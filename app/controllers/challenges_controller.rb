@@ -9,10 +9,9 @@ class ChallengesController < UITableViewController
     self
   end
 
-
-  def viewWillAppear(animated)
-   navigationItem.title = 'Your Challenges'
-   @refresh_button = RefreshButton.new(self, "viewDidLoad")
+  def viewDidLoad
+    navigationItem.title = 'Your Challenges'
+    @refresh_button = RefreshButton.new(self, "viewWillAppear")
   end
 
   def viewDidAppear(animated)
@@ -27,7 +26,8 @@ class ChallengesController < UITableViewController
 
   end
 
-  def viewDidLoad
+  def viewWillAppear(animated = false)
+       navigationItem.title = 'Your Challenges'
     @spinner = Spin.new(self.view)
     @challenges = []
     @your_challenges = []
@@ -46,6 +46,7 @@ class ChallengesController < UITableViewController
 
         if @your_challenges.length > 0 && @no_data_label
           @no_data_label.removeFromSuperview
+          @no_data_label = nil
         elsif @your_challenges.length < 1 && @no_data_label.nil?
           add_no_data_label
         end
