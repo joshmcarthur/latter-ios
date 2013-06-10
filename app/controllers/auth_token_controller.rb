@@ -11,6 +11,16 @@ class AuthTokenController < Formotion::FormController
     super
     self.navigationItem.title = "Access Credentials"
     self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemSave, target:self, action:'submit')
+
+    @authTokenLink = UITextView.alloc.init.tap do |link|
+      link.text =  "Don't know your authentication token? You can find it by logging in to Latter and editing your profile."
+      link.frame = [[20, 120], [self.tableView.frame.size.width - 40, 50]]
+      link.autoresizingMask = UIViewAutoresizingFlexibleWidth
+      link.textAlignment = NSTextAlignmentCenter
+      link.backgroundColor = UIColor.clearColor
+    end
+
+    self.tableView.addSubview(@authTokenLink)
   end
 
   def submit
