@@ -45,7 +45,6 @@ class ScoreController < UITableViewController
       @spinner.stop
       navigationItem.rightBarButtonItem.enabled = true
       if response.ok?
-        navigationController.topViewController.viewDidLoad
         navigationController.popToRootViewControllerAnimated(true)
       else
         App.alert("There was a problem recording your score. Please try again.")
