@@ -28,6 +28,11 @@ class ScoreController < UITableViewController
   end
 
   def submit
+    if @challenged_row.score == 0 && @challenger_row.score == 0
+      App.alert("Please enter a score")
+      return false
+    end
+
     navigationItem.rightBarButtonItem.enabled = false
     @spinner = Spin.new(self.view)
     Latter::API.new.post(
