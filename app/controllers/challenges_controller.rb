@@ -11,7 +11,7 @@ class ChallengesController < UITableViewController
 
 
   def viewWillAppear(animated)
-   navigationItem.title = 'Challenges'
+   navigationItem.title = 'Your Challenges'
    @refresh_button = RefreshButton.new(self, "viewDidLoad")
   end
 
@@ -20,14 +20,6 @@ class ChallengesController < UITableViewController
     tableView.deselectRowAtIndexPath(tableView.indexPathForSelectedRow, animated: true)
   end
 
-
-  def tableView(tableView, titleForHeaderInSection: section)
-    if section == YOUR_CHALLENGES_SECTION
-      "Your Challenges"
-    # elsif section == ALL_CHALLENGES_SECTION
-    #   "Latest Challenges"
-    end
-  end
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     game = @your_challenges[indexPath.row]
