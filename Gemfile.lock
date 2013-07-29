@@ -17,6 +17,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bubble-wrap
   dotenv
   formotion
   motion-fontawesome
