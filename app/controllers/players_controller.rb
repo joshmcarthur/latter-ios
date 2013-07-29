@@ -8,6 +8,7 @@ class PlayersController < UITableViewController
   end
 
   def viewDidLoad
+    @spinner.stop if @spinner
     @spinner = Spin.new(self.view)
     @players = []
     view.dataSource = view.delegate = self

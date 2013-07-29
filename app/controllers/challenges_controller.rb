@@ -27,7 +27,8 @@ class ChallengesController < UITableViewController
   end
 
   def viewWillAppear(animated = false)
-       navigationItem.title = 'Your Challenges'
+    navigationItem.title = 'Your Challenges'
+    @spinner.stop if @spinner
     @spinner = Spin.new(self.view)
     @challenges = []
     @your_challenges = []
@@ -72,9 +73,9 @@ class ChallengesController < UITableViewController
 
   def tableView(tableView, cellForRowAtIndexPath: indexPath)
     return case indexPath.section
-           when YOUR_CHALLENGES_SECTION
-            ChallengeCell.cellForChallenge(@your_challenges[indexPath.row], involvesCurrentPlayer: true, inTableView: tableView)
-           end
+    when YOUR_CHALLENGES_SECTION
+      ChallengeCell.cellForChallenge(@your_challenges[indexPath.row], involvesCurrentPlayer: true, inTableView: tableView)
+    end
   end
 
   def tableView(tableView, heightForRowAtIndexPath: indexPath)
